@@ -39,8 +39,19 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Create a new unmodified image from the original
+
+    // Allocate memory for the new image
     RGBTRIPLE(*original)[width] = calloc(height, width * sizeof(RGBTRIPLE));
-    original = image;
+
+    // Copy the pixels
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            // Pass each pixel to the unmodified image
+            original[i][j] = image[i][j];
+        }
+    }
 
     int grid_size = 0;
    
@@ -111,15 +122,15 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             else if ((i >= 1 && i < height - 1) && (j >= 1 && j < width - 1))
             {
                 grid_size = 9;
-                float new_red = (float) (original[i - 1][j - 1].rgbtRed + original[i + 1][j].rgbtRed + original[i - 1][j + 1].rgbtRed
+                float new_red = (float) (original[i - 1][j - 1].rgbtRed + original[i - 1][j].rgbtRed + original[i - 1][j + 1].rgbtRed
                                         +original[i][j - 1].rgbtRed + original[i][j].rgbtRed + original[i][j + 1].rgbtRed
                                         +original[i + 1][j - 1].rgbtRed + original[i + 1][j].rgbtRed + original[i + 1][j + 1].rgbtRed) / (float) grid_size;
 
-                float new_green = (float) (original[i - 1][j - 1].rgbtGreen + original[i + 1][j].rgbtGreen + original[i - 1][j + 1].rgbtGreen
+                float new_green = (float) (original[i - 1][j - 1].rgbtGreen + original[i - 1][j].rgbtGreen + original[i - 1][j + 1].rgbtGreen
                                         +original[i][j - 1].rgbtGreen + original[i][j].rgbtGreen + original[i][j + 1].rgbtGreen
                                         +original[i + 1][j - 1].rgbtGreen + original[i + 1][j].rgbtGreen + original[i + 1][j + 1].rgbtGreen) / (float) grid_size;
 
-                float new_blue = (float) (original[i - 1][j - 1].rgbtBlue + original[i + 1][j].rgbtBlue + original[i - 1][j + 1].rgbtBlue
+                float new_blue = (float) (original[i - 1][j - 1].rgbtBlue + original[i - 1][j].rgbtBlue + original[i - 1][j + 1].rgbtBlue
                                         +original[i][j - 1].rgbtBlue + original[i][j].rgbtBlue + original[i][j + 1].rgbtBlue
                                         +original[i + 1][j - 1].rgbtBlue + original[i + 1][j].rgbtBlue + original[i + 1][j + 1].rgbtBlue) / (float) grid_size;
 
@@ -170,16 +181,54 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 image[i][j].rgbtGreen = final_green;
                 image[i][j].rgbtBlue = final_blue;
             }
-            // // Left Column
-            // else if ()
-            // {
+            // Left Column
+            else if ((i >= 1 && i < height - 1) && (j == 0))
+            {
+                grid_size = 6;
+                float new_red = (float) (original[i - 1][j].rgbtRed + original[i - 1][j + 1].rgbtRed 
+                                        + original[i][j].rgbtRed + original[i][j + 1].rgbtRed
+                                        + original[i + 1][j].rgbtRed + original[i + 1][j + 1].rgbtRed) / (float) grid_size;
 
-            // }
+                float new_green = (float) (original[i - 1][j].rgbtGreen + original[i - 1][j + 1].rgbtGreen 
+                                        + original[i][j].rgbtGreen + original[i][j + 1].rgbtGreen
+                                        + original[i + 1][j].rgbtGreen + original[i + 1][j + 1].rgbtGreen) / (float) grid_size;
+
+                float new_blue = (float) (original[i - 1][j].rgbtBlue + original[i - 1][j + 1].rgbtBlue 
+                                        + original[i][j].rgbtBlue + original[i][j + 1].rgbtBlue
+                                        + original[i + 1][j].rgbtBlue + original[i + 1][j + 1].rgbtBlue) / (float) grid_size;
+
+                int final_red = round(new_red);
+                int final_green = round(new_green);
+                int final_blue = round(new_blue);
+
+                image[i][j].rgbtRed = final_red;
+                image[i][j].rgbtGreen = final_green;
+                image[i][j].rgbtBlue = final_blue;
+            }
             // // Right Column
-            // else if ()
-            // {
+            else if ((i >= 1 && height - 1) && (j == width - 1))
+            {
+                grid_size = 6;
+                float new_red = (float) (original[i - 1][j].rgbtRed + original[i - 1][j - 1].rgbtRed 
+                                        + original[i][j].rgbtRed + original[i][j - 1].rgbtRed
+                                        + original[i + 1][j].rgbtRed + original[i + 1][j - 1].rgbtRed) / (float) grid_size;
 
-            // }
+                float new_green = (float) (original[i - 1][j].rgbtGreen + original[i - 1][j - 1].rgbtGreen 
+                                        + original[i][j].rgbtGreen + original[i][j - 1].rgbtGreen
+                                        + original[i + 1][j].rgbtGreen + original[i + 1][j - 1].rgbtGreen) / (float) grid_size;
+
+                float new_blue = (float) (original[i - 1][j].rgbtBlue + original[i - 1][j - 1].rgbtBlue 
+                                        + original[i][j].rgbtBlue + original[i][j - 1].rgbtBlue
+                                        + original[i + 1][j].rgbtBlue + original[i + 1][j - 1].rgbtBlue) / (float) grid_size;
+
+                int final_red = round(new_red);
+                int final_green = round(new_green);
+                int final_blue = round(new_blue);
+
+                image[i][j].rgbtRed = final_red;
+                image[i][j].rgbtGreen = final_green;
+                image[i][j].rgbtBlue = final_blue;
+            }
             // Bottom row
             else if ((i == height - 1) && (j >= 1 && j < width - 1))
             {
