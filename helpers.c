@@ -256,32 +256,12 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         }
     }
 
-    
-
-    // // Top Left Corner
-    // image[0][0].rgbtRed = 255;
-    // image[0][0].rgbtGreen = 0;
-    // image[0][0].rgbtBlue = 0;
-
-    // // Bottom Left Corner
-    // image[height - 1][0].rgbtRed = 0;
-    // image[height - 1][0].rgbtGreen = 255;
-    // image[height - 1][0].rgbtBlue = 0;
-
-    // // Top Right Corner
-    // image[0][width - 1].rgbtRed = 255;
-    // image[0][width - 1].rgbtGreen = 0;
-    // image[0][width - 1].rgbtBlue = 0;
-
-    // // Bottom Rigth Corner
-    // image[height - 1][width - 1].rgbtRed = 0;
-    // image[height - 1][width - 1].rgbtGreen = 255;
-    // image[height - 1][width - 1].rgbtBlue = 0;
     return;
 }
 
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+    
     return;
 }
